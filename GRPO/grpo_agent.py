@@ -258,7 +258,6 @@ class GRPOAgent:
                     state, _, terminated, truncated, _ = env.step(action)
                     done = terminated or truncated
 
-
     def save_graph(self, mean_rewards):
         fig = plt.figure(1)
         plt.xlabel('Rollouts')
