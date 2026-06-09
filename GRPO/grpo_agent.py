@@ -4,9 +4,7 @@ from gymnasium.spaces import Discrete, Tuple as TupleSpace
 
 # Import ML libraries
 import torch
-import torch.nn as nn
 import numpy as np
-from torch.optim import Optimizer
 from torch.distributions import Categorical
 
 # Import stuff from other files
@@ -20,9 +18,6 @@ import itertools
 
 # os for directories
 import os
-
-# for randomness
-import random
 
 # MPL for plotting
 import matplotlib.pyplot as plt
@@ -148,14 +143,13 @@ class GRPOAgent:
             lr=self.learning_rate)
 
         rewards_per_episode = []
+        mean_rewards = []
         best_mean_reward = float('-inf')
 
         start_time = datetime.now()
         last_graph_update_time = start_time
         log_message = f"{start_time.strftime(DATE_FORMAT)}: Training starting..."
-        print(log_message)
-        with open(self.LOG_FILE, 'w') as log_file:
-            log_file.write(log_message + '\n')
+        self._log(log_message)
         
         rollout_idx = 1
 
@@ -167,6 +161,7 @@ class GRPOAgent:
             # Everything else — tracking, logging, saving, auto-stopping
             rewards_per_episode.extend(episode_returns)
             mean_reward = np.mean(rewards_per_episode[-100:])
+            mean_rewards.append(mean_reward)
             
             if mean_reward > best_mean_reward:
                 # log
@@ -179,7 +174,7 @@ class GRPOAgent:
 
             # Update graph every 30 seconds
             if datetime.now() - last_graph_update_time > timedelta(seconds=30):
-                self.save_graph(rewards_per_episode)
+                self.save_graph(mean_rewards)
                 last_graph_update_time = datetime.now()
             
             # Auto stopping condition
@@ -264,14 +259,13 @@ class GRPOAgent:
                     done = terminated or truncated
 
 
-    def save_graph(self, episodic_returns):
-        if not episodic_returns: return
-        steps, returns = zip(*episodic_returns)
-        plt.plot(steps, returns)
-        plt.xlabel('Global step')
-        plt.ylabel('Episodic returns')
-        plt.savefig(self.GRAPH_FILE)
-        plt.close()
+    def save_graph(self, mean_rewards):
+        fig = plt.figure(1)
+        plt.xlabel('Rollouts')
+        plt.ylabel('Mean reward of last 100 eps')
+        plt.plot(mean_rewards)
+        fig.savefig(self.GRAPH_FILE)
+        plt.close(fig)
 
     # Log helper function — for appending.
     def _log(self, msg):

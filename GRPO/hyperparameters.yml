@@ -14,4 +14,4 @@ grpoblackjack:
   entropy_coef: 0.01
   max_grad_norm: 0.5
   kl_coef: 0.0 # 0 for blackjack bc we don't rlly have a reference
-  stop_on_reward: -0.05 # blackjack is rigged for the house, a perfect play loses ~ 0.05. for other envs set this to their solved score
+  stop_on_reward: -0.045 # blackjack is rigged for the house, a perfect play loses ~ 0.05. for other envs set this to their solved score
