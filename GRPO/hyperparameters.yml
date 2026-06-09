@@ -1,4 +1,4 @@
-grpoblackjack_1:
+grpoblackjack:
   env_id: Blackjack-v1
   env_make_params:
     natural: False
@@ -15,61 +15,4 @@ grpoblackjack_1:
   max_grad_norm: 0.5
   kl_coef: 0.0 # 0 for blackjack bc we don't rlly have a reference
   stop_on_reward: -0.04 # blackjack is rigged for the house, a perfect play loses ~ 0.05. for other envs set this to their solved score
-  window: 50000
-
-grpoblackjack_2:
-  env_id: Blackjack-v1
-  env_make_params:
-    natural: False
-    sab: False
-  gamma: 1.0
-  hidden_dim: 128
-  learning_rate: 0.0003
-  group_size: 16
-  num_groups: 64
-  n_epochs: 10
-  minibatch_size: 64
-  clip_ratio: 0.2
-  entropy_coef: 0.01
-  max_grad_norm: 0.5
-  kl_coef: 0.0
-  stop_on_reward: -0.03
-  window: 50000
-
-grpoblackjack_3:
-  env_id: Blackjack-v1
-  env_make_params:
-    natural: False
-    sab: False
-  gamma: 1.0
-  hidden_dim: 128
-  learning_rate: 0.0003
-  group_size: 16
-  num_groups: 64
-  n_epochs: 10
-  minibatch_size: 64
-  clip_ratio: 0.2
-  entropy_coef: 0.01
-  max_grad_norm: 0.5
-  kl_coef: 0.0
-  stop_on_reward: -0.02
-  window: 50000
-
-grpoblackjack_4:
-  env_id: Blackjack-v1
-  env_make_params:
-    natural: False
-    sab: False
-  gamma: 1.0
-  hidden_dim: 128
-  learning_rate: 0.0003
-  group_size: 16
-  num_groups: 64
-  n_epochs: 10
-  minibatch_size: 64
-  clip_ratio: 0.2
-  entropy_coef: 0.01
-  max_grad_norm: 0.5
-  kl_coef: 0.0
-  stop_on_reward: -0.01
   window: 50000
