@@ -61,6 +61,7 @@ class GRPOAgent:
         self.max_grad_norm = hyperparameters['max_grad_norm']
         self.kl_coef = hyperparameters['kl_coef']
         self.stop_on_reward = hyperparameters['stop_on_reward']
+        self.window = hyperparameters['window']
 
         self.LOG_FILE = os.path.join(RUNS_DIR, f'{self.hyperparameter_set}.log')
         self.MODEL_FILE = os.path.join(RUNS_DIR, f'{self.hyperparameter_set}.pt')
@@ -159,8 +160,11 @@ class GRPOAgent:
             self.optimize(actor, actor_optimizer, states, actions, old_log_probs, scores)
 
             # Everything else — tracking, logging, saving, auto-stopping
-            rewards_per_episode.extend(episode_returns)
-            mean_reward = np.mean(rewards_per_episode[-100:])
+
+            if len(rewards_per_episode) >= self.window:
+                mean_reward = np.mean(rewards_per_episode[-self.window:])
+            else:
+                mean_reward = np.mean(rewards_per_episode)
             mean_rewards.append(mean_reward)
             
             if mean_reward > best_mean_reward:
@@ -178,7 +182,7 @@ class GRPOAgent:
                 last_graph_update_time = datetime.now()
             
             # Auto stopping condition
-            if mean_reward >= self.stop_on_reward and len(rewards_per_episode) >= 100:
+            if mean_reward >= self.stop_on_reward and len(rewards_per_episode) >= self.window:
                 log_message = "Solved"
                 self._log(log_message)
 
