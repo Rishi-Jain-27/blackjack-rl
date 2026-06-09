@@ -164,7 +164,10 @@ class GRPOAgent:
             if len(rewards_per_episode) >= self.window:
                 mean_reward = np.mean(rewards_per_episode[-self.window:])
             else:
-                mean_reward = np.mean(rewards_per_episode)
+                if rewards_per_episode == []:
+                    continue
+                else:
+                    mean_reward = np.mean(rewards_per_episode)
             mean_rewards.append(mean_reward)
             
             if mean_reward > best_mean_reward:
@@ -293,6 +296,6 @@ if __name__ == '__main__':
     grpo = GRPOAgent(hyperparameter_set=args.hyperparameters)
 
     if args.train:
-        grpo.train() # python grpo_agent.py --train grpoblackjack
+        grpo.train() # python grpo_agent.py --train grpoblackjack_1
     else:
-        grpo.run() # python grpo_agent.py grpoblackjack
+        grpo.run() # python grpo_agent.py grpoblackjack_1
