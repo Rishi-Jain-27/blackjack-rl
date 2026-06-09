@@ -160,14 +160,11 @@ class GRPOAgent:
             self.optimize(actor, actor_optimizer, states, actions, old_log_probs, scores)
 
             # Everything else — tracking, logging, saving, auto-stopping
-
+            rewards_per_episode.extend(episode_returns)
             if len(rewards_per_episode) >= self.window:
                 mean_reward = np.mean(rewards_per_episode[-self.window:])
             else:
-                if rewards_per_episode == []:
-                    continue
-                else:
-                    mean_reward = np.mean(rewards_per_episode)
+                mean_reward = np.mean(rewards_per_episode)
             mean_rewards.append(mean_reward)
             
             if mean_reward > best_mean_reward:
