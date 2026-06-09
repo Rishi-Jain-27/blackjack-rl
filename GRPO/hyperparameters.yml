@@ -1,0 +1,17 @@
+grpoblackjack:
+  env_id: Blackjack-v1
+  env_make_params:
+    natural: False
+    sab: False
+  gamma: 1.0 # make 0.99 for envs with longer episodes
+  hidden_dim: 128
+  learning_rate: 0.0003
+  group_size: 16 # how many hands played from the same starting situation
+  num_groups: 64 # how many diff starting situations tried per round. blackjack is very noisy so these are larger
+  n_epochs: 10 # study the same batch of hands this many times
+  minibatch_size: 64 # how many hands to look at in one training bit
+  clip_ratio: 0.2
+  entropy_coef: 0.01
+  max_grad_norm: 0.5
+  kl_coef: 0.0 # 0 for blackjack bc we don't rlly have a reference
+  stop_on_reward: -0.05 # blackjack is rigged for the house, a perfect play loses ~ 0.05. for other envs set this to their solved score
