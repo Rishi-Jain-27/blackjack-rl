@@ -1,0 +1,21 @@
+rpoblackjack_1:
+  env_id: "Blackjack-v1"
+  env_make_params:
+    natural: False
+    sab: False
+  learning_rate: 0.0003
+  gamma: 1.0
+  hidden_dim: 128
+  stop_on_reward: -0.03
+  window: 50000
+  gae_lambda: 0.95
+  clip_ratio: 0.2
+  n_steps: 2048 # steps per update
+  n_epochs: 10 # passes per rollout
+  minibatch_size: 64
+  value_coef: 0.5
+  entropy_coef: 0.01
+  max_grad_norm: 0.5
+  num_envs: 16
+  robustness_coef: 0.5
+  noise_scale: 0.1
